@@ -1,11 +1,12 @@
-package com.example.starkre.guice;
+package com.example.starkre.guice.activities;
 
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.google.inject.Guice;
+import com.example.starkre.guice.R;
+import com.example.starkre.guice.robot.Robot;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
 import roboguice.activity.RoboActivity;
@@ -19,19 +20,24 @@ public final class MainActivity extends RoboActivity {
     private ImageView imageView;
 
     @Inject
-    private TestGuice guice;
-
-    @Inject
     @Named("hello")
     private String hello;
+
+    @Inject
+    private Provider<Robot> robotProvider;
 
     @Override
     protected final void onCreate(final Bundle bundle) {
         super.onCreate(bundle);
         this.imageView.setImageAlpha(25);
-        this.guice.say();
-        System.out.println(this.hello);
+        for (int i = 0; i < 1000; i++){
+            System.out.println("!!!");
+            this.recallRobot();
+        }
+    }
+
+    private void recallRobot() {
+        final Robot robot = this.robotProvider.get();
+        robot.say();
     }
 }
-
-
